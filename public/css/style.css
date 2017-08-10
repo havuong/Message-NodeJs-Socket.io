@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,500&subset=vietnamese');
+
+html, body { height: 100%; }
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+}
+
+a, a:hover, a:active, a:focus {
+    text-decoration: none;
+    color: #2980b9;
+    outline: 0;
+}
+
+.including:before, .including:after {content: " ";display: table;}
+.including:after {clear: both;}
+.including:before, .including:after {content: " ";display: table;}
+.including:after {clear: both;}
+
+h1.title {
+    font-size: 14px;
+    padding-left: 10px;
+    margin: 10px 0 10px 0;
+    color: rgba(0, 0, 0, .40);
+    font-weight: normal;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #eee;
+}
+
+.textInput {
+    width: 100%;
+    height: 40px;
+    outline: 0;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.btn {
+    font-size: 14px;
+    height: 40px;
+    color: #fff;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.alert {
+    background: red;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1
+}
+
+.left {
+    width: 25%;
+    /*background: pink;*/
+    height: 100%;
+    float: left;
+    border-right: 1px solid #eee;
+}
+.left .content,
+.right .content {
+    width: 100%;
+    /*overflow-x: hidden;*/
+    overflow-y: auto;
+    height: calc(100% - 50px);
+    /*background: black;*/
+}
+.main {
+    width: 75%;
+    float: left;
+    /*background: blue;*/
+    height: 100%;
+}
+.main .main-left {
+    float: left;
+    width: 65%;
+    /*height: calc(100% - 50px);*/
+    height: 100%;
+    /*background: pink;*/
+    overflow: auto;
+}
+.main .main-left.full {
+    width: 100%;
+}
+.main-left .content {
+    /*background: yellow;*/
+    padding: 15px;
+}
+.main .main-right {
+    float: left;
+    width: 35%;
+    /*background: blue;*/
+    height: 100%;
+    /*min-height: calc(100% - 50px);*/
+    border-left: 1px solid #eee;
+    overflow: auto;
+}
+.right {
+    width: 20%;
+    /*background: yellow;*/
+    height: 100%;
+    float: left;
+    overflow: auto;
+    border-left: 1px solid #eee;
+}
+
+.top, .bottom {
+    width: 100%;
+    float: left;
+}
+.top {
+    height: 50px;
+    /*background: red;*/
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background: black;*/
+    padding: 15px;
+}
+.top .icon {
+    color: #3498db;
+    font-size: 20px;
+}
+.top .top-left,
+.top .top-right {
+    float: left;
+    width: 20%;
+    /*background: red;*/
+    /*background: orange;*/
+}
+.top .top-left {
+    text-align: left;
+}
+.top .top-right {
+    text-align: right;
+}
+.top .top-center {
+    /*background: green;*/
+    width: 60%;
+    display: flex;
+    justify-content: center;
+}
+.top h1.sitename {
+    color: #3498db;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+}
+.top #currentRoom {
+    color: #34495e;
+    font-size: 16px;
+    margin: 0;
+}
+.main .content {
+    /*background: red;*/
+    float: left;
+    width: 100%;
+    /*height: 100%;*/
+    height: calc(100% - 50px);
+    overflow: auto;
+}
+.bottom {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    /*background: orange;*/
+    border-top: 1px solid #eee;
+    /*position: relative;*/
+}
+.input-message {
+    width: 100%;
+    border: 0;
+    outline: 0;
+}
+
+.content-top, .content-bottom {
+    width: 100%;
+    height: 50%;
+}
+.content-top {
+    /*background: red;*/
+    border-bottom: 1px solid #eee;
+}
+
+.content .content-heading {
+    width: 100%;
+    height: 40px;
+    /*background: yellow;*/
+    float: left;
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+    padding-left: 10px;
+    /*border-bottom: 1px solid #eee;*/
+}
+.content-heading h1 {
+    color: rgba(0, 0, 0, .40);
+    font-size: 14px;
+    margin: 0;
+    font-weight: normal
+}
+.content .content-body {
+    width: 100%;
+    float: left;
+    /*background: red;*/
+    height: calc(100% - 40px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+/*#listMessage {
+    height: 100%;
+}
+
+.content {
+    background: red;
+    min-height: calc(100% - 100px);
+    overflow: auto;
+}*/
+
+/* Groups */
+.group {
+    display: flex;
+    align-items: center;
+    /*background: yellow;*/
+    padding: 10px;
+    /*border-bottom: 1px solid #eee;*/
+    /*background: yellow;*/
+}
+.group .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    margin-right: 10px;
+}
+.group h4.name {
+    color: #333;
+    margin: 0 0 5px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.status {
+    color: rgba(0, 0, 0, .40);
+}
+.status.true {
+    color: #2ecc71;
+}
+
+/* Messages */
+.message-group {
+    clear: both;
+    position: relative;
+    margin-bottom: 15px;
+}
+.message-avatar {
+    position: absolute;
+    bottom: 2px;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+}
+.message-body {
+    margin-left: 40px;
+}
+.message {
+    clear: left;
+    background-color: #eee;
+    margin-bottom: 2px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    color: #333;
+    max-width: 60%;
+    float: left;
+    word-wrap: break-word;
+    /*display: flex;*/
+    /*align-items: center;*/
+}
+
+.message.message-bottom {
+    border-bottom-left-radius: 3px;
+}
+.message.message-top {
+    border-top-left-radius: 3px;
+}
+.message-group.me .message.message-bottom {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 3px;
+}
+.message-group.me .message.message-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 3px;
+}
+
+.message-group.me .message {
+    background-color: #0084ff;
+    color: #fff;
+    clear: right;
+    float: right;
+}
+.message-group.me .message-body {
+    margin-right: 0px;
+}
+
+.message-username {
+    color: #898989;
+    font-size: 14px;
+    margin: 0 0 5px 0px;
+    font-weight: normal;
+}
+
+/*::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1; 
+}
+ 
+::-webkit-scrollbar-thumb {
+    background-color: #bdc3c7; 
+}*/
