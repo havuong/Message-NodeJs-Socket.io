@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DMessage</title>
+        <link rel="stylesheet" href="http://localhost:3000/libs/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="http://localhost:3000/libs/emojione/css/emojione.min.css" />
+        <link rel="stylesheet" href="http://localhost:3000/libs/simple-line-icons/simple-line-icons.css" />
+        <link rel="stylesheet" href="http://mervick.github.io/lib/emojione/assets/sprites/emojione.sprites.css">
+        <link rel="stylesheet" href="http://localhost:3000/libs/emojionearea/emojionearea.css" />
+        <link rel="stylesheet" href="http://localhost:3000/css/style.css" />
+        <script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="http://localhost:3000/libs/jquery/jquery.js"></script>
+        <script type="text/javascript" src="http://mervick.github.io/lib/emojione/lib/js/emojione.min.js"></script>
+        <script type="text/javascript" src="http://localhost:3000/libs/emojionearea/emojionearea.js"></script>
+        <script type="text/javascript" src="http://localhost:3000/libs/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            var socket = io('http://localhost:3000');
+
+            var clientData = {
+                user: {
+                    _id: '<%= user._id %>',
+                    username: '<%= user.username %>',
+                    avatar: '<%= user.avatar %>'
+                },
+                room: '<%= room %>',
+                type: '<%= type %>'
+            }
+            
+            var showMainRight = '<%= user.showMainRight %>';
+
+            $(document).ready(function() {
+                if (showMainRight == 'false') {
+                    $('.main-right').css('display', 'none');
+                    $('.main-left').addClass('full');
+                }
+            });
+
+            emojione.imagePathPNG = 'http://localhost:3000/img/emoji/';
+
+        </script>
+        <% if (type == 'p') { %>
+        <style type="text/css">
+            .message-username { display: none; }
+        </style>
+        <% } %>
+        <script type="text/javascript" src="http://localhost:3000/js/app.js"></script>
+
+        <style>
+        .show-emoji-box {
+            float: left;
+            width: 50px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .show-emoji-box i {
+            font-size: 25px;
+            color: #bdc3c7;
+        }
+        .text-input {
+            float: left;
+            width: calc(100% - 50px);
+            /*height: 50px;*/
+            display: flex;
+            align-items: center;
+        }
+        .emoji-box {
+            display: none;
+            background: #f9f9f9;
+            width: 200px;
+            position: absolute;
+            right: 0;
+            bottom: 58px;
+            border-radius: 5px;
+        }
+        .emoji-box::before {
+            content: "";
+            position: absolute;
+            bottom: -7px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 7px solid #e5e5e5;
+        }
+        </style>
+
+    </head>
+    <body>
+        <div class="modal fade" id="modalCreateRoom" tabindex="-1" role="dialog" aria-labelledby="modalCreateRoomLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalCreateRoomLabel"><i class="icon icon-note"></i> Thêm nhóm</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" name="roomName" id="txtRoomName" class="form-control" placeholder="Tên nhóm">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnCreateRoom" class="btn btn-primary"><i class="icon icon-note"></i> Thêm nhóm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="left">
+            <div class="top">
+                <div class="top-left">
+                    <a href="/profile"><i class="icon icon-settings"></i></a>
+                </div>
+                <div class="top-center">
+                    <h1 class="sitename">DMessage</h1>
+                </div>
+                <div class="top-right">
+                    <a href="#" data-toggle="modal" data-target="#modalCreateRoom"><i class="icon icon-note"></i></a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-top">
+                    <div class="content-heading">
+                        <h1><i class="icon-user"></i> Bạn bè</h1>
+                    </div>
+                    <div class="content-body" id="listUser">
+                    </div>
+                </div>
+                <div class="content-bottom">
+                    <div class="content-heading">
+                        <h1><i class="icon-users"></i> Nhóm</h1>
+                    </div>
+                    <div class="content-body" id="listRoom">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="top">
+                <div class="top-left"></div>
+                <div class="top-center">
+                    <h1 id="currentRoom"><%= room %></h1>
+                </div>
+                <div class="top-right">
+                    <a href="#" id="a-show-main-right"><i class="icon icon-info"></i></a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="main-left">
+                    <div class="content">
+                        <div id="listMessage"></div>
+                    </div>
+                    <div class="bottom">
+                        <input type="text" id="txtMessage" class="input-message" value="" placeholder="Enter message" />
+                    </div>
+                </div>
+                <div class="main-right">
+                    <% if (type == 'p') { %>
+                    <div class="group border-bottom">
+                        <img src="<%= user.avatar %>" alt="" class="avatar">
+                        <div class="info">
+                            <h4 class="name"><%= user.username %></h4>
+                            <div class="status">Hoạt động trên DMessage</div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if (type == 'g') { %>
+                    <a href="#" data-toggle="modal" data-target="#modalEditRoomAvatar">
+                        <div class="group border-bottom">
+                            <img src="<%= roomAvatar %>" id="roomAvatar" alt="" class="avatar">
+                            <div class="info">
+                                <h4 class="name" id="roomName" style="margin: 0"></h4>
+                            </div>
+                        </div>
+                    </a>
+                    <h1 class="title"><i class="icon-users"></i> Mọi người</h1>
+                    <div id="listMemberInRoom"></div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <% include includes/editRoomAvatar.ejs %>
+
+    </body>
+</html>

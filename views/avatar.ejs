@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cập nhật avatar</title>
+    <link rel="stylesheet" href="http://localhost:3000/libs/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="http://localhost:3000/libs/simple-line-icons/simple-line-icons.css" />
+    <link rel="stylesheet" href="http://localhost:3000/libs/darkroomjs/css/darkroom.css" />
+    <link rel="stylesheet" href="http://localhost:3000/css/user.css" />
+    <script type="text/javascript" src="http://localhost:3000/libs/jquery/jquery.js"></script>
+    <script type="text/javascript" src="http://malsup.github.com/jquery.form.js"></script>
+    <script type="text/javascript" src="http://localhost:3000/libs/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .input-avatar {
+            /*background: red;*/
+            padding-top: 7px;
+            padding-bottom: 7px;
+        }
+        .cropContainer {
+            margin-top: 20px;
+        }
+        #target img {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <% include includes/header.ejs %>
+    <div class="container">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="box">
+                <h1 class="title"><i class="icon icon-picture"></i> Cập nhật avatar</h1>
+                <form id="frmUploader" class="form-inline" enctype="multipart/form-data" action="http://localhost:3000/api/upload/" method="post">
+                    <div class="form-group">
+                        <input type="file" name="imgUploader" class="input-avatar" />
+                    </div>
+                    <button type="submit" name="submit" id="btnSubmit" class="btn btn-primary"><i class="icon icon-cloud-upload"></i> Tải lên</button>
+                </form>
+                <div class="cropContainer">
+                    <img src="<%= user.avatar %>" id="target" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="http://localhost:3000/libs/darkroomjs/js/fabric.js"></script>
+    <script src="http://localhost:3000/libs/darkroomjs/js/darkroom.js"></script>
+   
+    <script>
+        $(document).ready(function () {
+            $('#frmUploader').submit(function () {
+                $(this).ajaxSubmit({
+                    beforeSubmit: function () {
+                        console.log('Uploading...');
+                    },
+                    success: function (data) {
+                        if (data == 'error') {
+                            console.log('Upload khong thanh cong');
+                        } else {
+                            $('.cropContainer').html('');
+                            $('.cropContainer').html('<img src="http://localhost:3000/upload/' + data + '" id="target" />');
+
+                            new Darkroom('#target', {
+                                minWidth: 200,
+                                minHeight: 200,
+                                maxWidth: 200,
+                                maxHeight: 200,
+                                ratio: 1 / 1,
+                                backgroundColor: '#000',
+
+                                plugins: {
+                                    crop: {
+                                        quickCropKey: 13,
+                                        minHeight: 200,
+                                        minWidth: 200,
+                                        ratio: 1 / 1
+                                    },
+                                    save: {
+                                        callback: function () {
+                                            $.ajax({
+                                                method: 'POST',
+                                                url: 'http://localhost:3000/profile/edit-avatar',
+                                                data: {
+                                                    avatar: this.darkroom.canvas.toDataURL(),
+                                                    userId: '<%= user._id %>'
+                                                },
+                                                contentType: "application/x-www-form-urlencoded",
+                                                beforeSend: function () {
+                                                    console.log('saving avatar');
+                                                },
+                                                success: function (data) {
+                                                    if (data == 'success') {
+                                                        console.log('Cap nhat avatar thanh cong');
+                                                        window.location.href = 'http://localhost:3000/profile';
+                                                    } else {
+                                                        console.log('Cap nhat avatar khong thanh cong');
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                },
+
+                                initialize: function () {
+                                    var cropPlugin = this.plugins['crop'];
+                                    // cropPlugin.selectZone(170, 25, 300, 300);
+                                    cropPlugin.requireFocus();
+                                }
+                            });
+
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>
